@@ -3,8 +3,10 @@ import fetch from 'node-fetch';
 import cors from 'cors';
 
 const app = express();
-const PORT = 4000;
-const CLAUDE_API_KEY = 'your_claude_api_key';  // Insert your actual API key here
+
+// Use environment variables for PORT and API key
+const PORT = process.env.PORT || 4000;  // Railway will provide the PORT
+const CLAUDE_API_KEY = process.env.CLAUDE_API_KEY;  // Set this in Railway's environment variables
 
 app.use(cors());
 app.use(express.json());
@@ -52,6 +54,7 @@ app.post('/api/claude', async (req, res) => {
     }
 });
 
-app.listen(PORT, () => {
+// Use '0.0.0.0' as the host to bind to all interfaces
+app.listen(PORT, '0.0.0.0', () => {
     console.log(`Server running on http://localhost:${PORT}`);
 });
