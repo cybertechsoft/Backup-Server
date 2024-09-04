@@ -5,7 +5,7 @@ import cors from 'cors';
 const app = express();
 
 // Use environment variables for PORT and API key
-const PORT = process.env.PORT || 4000;  // Railway will provide the PORT
+const PORT = process.env.PORT || 8080;  // Railway will provide the PORT
 const CLAUDE_API_KEY = process.env.CLAUDE_API_KEY;  // Set this in Railway's environment variables
 
 app.use(cors());
