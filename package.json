@@ -1,15 +1,16 @@
 {
-  "name": "Backup-Server",
+  "name": "my-backend",
   "version": "1.0.0",
-  "description": "Backend for my avatar app",
   "main": "server.mjs",
   "scripts": {
     "start": "node server.mjs"
   },
   "dependencies": {
     "express": "^4.19.2",
-    "cors": "^2.8.5",
-    "node-fetch": "^3.3.2"
+    "node-fetch": "^3.3.2",
+    "cors": "^2.8.5"
   },
-  "type": "module"
+  "engines": {
+    "node": ">=14.x"
+  }
 }
