@@ -25,11 +25,12 @@ app.post('/api/claude', async (req, res) => {
         { role: 'user', content: prompt }
     ];
 
-    const systemMessage = 
+    // Fix: Multi-line string properly formatted using backticks
+    const systemMessage = `
         You are a conversational AI assistant. Provide brief, concise responses similar to human conversation.
         Aim for responses of 1-2 short sentences. Be friendly but succinct. 
         If asked for your name, say that you are an AI assistant or just "Assistant", but do not mention the name "Claude".
-    ;
+    `;
 
     try {
         const response = await fetch('https://api.anthropic.com/v1/messages', {
@@ -66,5 +67,5 @@ app.post('/api/claude', async (req, res) => {
 });
 
 app.listen(PORT, () => {
-    console.log(Server running on http://localhost:${PORT});
+    console.log(`Server running on http://localhost:${PORT}`);
 });
