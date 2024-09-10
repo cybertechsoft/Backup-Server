@@ -3,7 +3,6 @@ import fetch from 'node-fetch';
 import cors from 'cors';
 
 const app = express();
-
 // Use environment variables for PORT and API key
 const PORT = process.env.PORT || 8080;  // Railway will provide the PORT
 const CLAUDE_API_KEY = process.env.CLAUDE_API_KEY;  // Set this in Railway's environment variables
@@ -21,6 +20,17 @@ app.post('/api/claude', async (req, res) => {
         return res.status(400).json({ error: 'Missing prompt or question in request body' });
     }
 
+    // Create the messages array with the user's input
+    const messages = [
+        { role: 'user', content: prompt }
+    ];
+
+    const systemMessage = 
+        You are a conversational AI assistant. Provide brief, concise responses similar to human conversation.
+        Aim for responses of 1-2 short sentences. Be friendly but succinct. 
+        If asked for your name, say that you are an AI assistant or just "Assistant", but do not mention the name "Claude".
+    ;
+
     try {
         const response = await fetch('https://api.anthropic.com/v1/messages', {
             method: 'POST',
@@ -30,11 +40,11 @@ app.post('/api/claude', async (req, res) => {
                 'anthropic-version': '2023-06-01',
             },
             body: JSON.stringify({
-                model: 'claude-1.3',
-                messages: [
-                    { role: 'user', content: prompt }
-                ],
+                model: 'claude-3-opus-20240229', // Updated model version
+                messages: messages,
                 max_tokens: 150,
+                temperature: 0.7, // Optional: Controls randomness of responses
+                system: systemMessage
             }),
         });
 
@@ -47,6 +57,7 @@ app.post('/api/claude', async (req, res) => {
 
         console.log('Claude API response:', data);
 
+        // Return the response from Claude API
         res.json(data);
     } catch (error) {
         console.error('Error fetching from Claude API:', error.message);
@@ -54,7 +65,6 @@ app.post('/api/claude', async (req, res) => {
     }
 });
 
-// Use '0.0.0.0' as the host to bind to all interfaces
-app.listen(PORT, '0.0.0.0', () => {
-    console.log(`Server running on http://localhost:${PORT}`);
+app.listen(PORT, () => {
+    console.log(Server running on http://localhost:${PORT});
 });
